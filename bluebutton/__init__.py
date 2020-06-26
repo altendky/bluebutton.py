@@ -4,10 +4,9 @@
 # Use of this source code is governed by the license found in the LICENSE file.
 ###############################################################################
 
-from . import core
-from . import documents
-import documents.ccda
-import parsers.ccda
+import bluebutton.core
+import bluebutton.documents.ccda
+import bluebutton.parsers.ccda
 
 
 class BlueButton(object):
@@ -17,12 +16,12 @@ class BlueButton(object):
         if options is None:
             opts = dict()
 
-        parsed_data = core.parse_data(source)
+        parsed_data = bluebutton.core.parse_data(source)
 
         if 'parser' in opts:
             parsed_document = opts['parser']()
         else:
-            type = documents.detect(parsed_data)
+            type = bluebutton.documents.detect(parsed_data)
 
             if 'c32' == type:
                 # TODO: add support for legacy C32
@@ -30,8 +29,8 @@ class BlueButton(object):
                 # parsed_document = parsers.C32.run(parsed_data)
                 pass
             elif 'ccda' == type:
-                parsed_data = documents.ccda.process(parsed_data)
-                parsed_document = parsers.ccda.run(parsed_data)
+                parsed_data = bluebutton.documents.ccda.process(parsed_data)
+                parsed_document = bluebutton.parsers.ccda.run(parsed_data)
             elif 'json' == type:
                 # TODO: add support for JSON
                 pass
